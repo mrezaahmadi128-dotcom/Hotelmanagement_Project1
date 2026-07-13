@@ -8,19 +8,19 @@ namespace Hotelmanagement
 {
     public class Result
     {
-        public bool Succes { get;  private set; }
+        public bool Success { get;  private set; }
         public string Message { get; private  set; }
         public static Result Failed(string msg)
         {
             Result result = new Result();
             result.Message = msg;
-            result.Succes = false;
+            result.Success = false;
             return result;
         }
         public static Result Ok()
         {
             Result result = new Result();
-            result.Succes=true;
+            result.Success=true;
             return result;
         }
     }

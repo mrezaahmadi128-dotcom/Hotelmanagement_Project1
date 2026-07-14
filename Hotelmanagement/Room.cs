@@ -8,10 +8,10 @@ namespace Hotelmanagement
 {
     public class Room
     {
-        public string RoomNumber { get; set; }
+        public int RoomNumber { get; set; }
         public int Capacity {  get; set; }
         public decimal Price {  get; set; }
-        public Room(string roomNumber, int capacity, decimal price)
+        public Room(int roomNumber, int capacity, decimal price)
         {
             RoomNumber = roomNumber;
             Capacity = capacity;

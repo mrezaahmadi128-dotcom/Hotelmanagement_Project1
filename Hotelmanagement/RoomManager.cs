@@ -9,7 +9,11 @@ namespace Hotelmanagement
     public class RoomManager
     {
         private static List<Room> _rooms = new List<Room>();
-        public Result AddRoom(Room room)
+        public List<Room> GetRooms()
+        {
+            return _rooms;
+        }
+        public  Result AddRoom(Room room)
         {
             Result result=Validation(room);
             if(!result.Success)
@@ -22,9 +26,9 @@ namespace Hotelmanagement
             return Result.Ok();
         }
 
-        private Result Validation(Room room)
+        public  Result Validation(Room room)
         {
-            if(string.IsNullOrWhiteSpace(room.RoomNumber))
+            if(room.RoomNumber<100 || room.RoomNumber>500)
             {
                 return Result.Failed("شماره اتاق الزامی است");
             }
@@ -39,7 +43,7 @@ namespace Hotelmanagement
             return Result.Ok();
         }
 
-        public  bool ExistRoom(string roomNumber)
+        public  bool ExistRoom(int roomNumber)
         {
             foreach (Room r in _rooms)
             {
@@ -53,7 +57,7 @@ namespace Hotelmanagement
         /// </summary>
         /// <param name="roomNumber"></param>
         /// <returns></returns>
-        public Result RemoveRoom(string roomNumber)
+        public Result RemoveRoom(int roomNumber)
         {
             Room delete = null;
             foreach (Room r in _rooms)
@@ -73,6 +77,23 @@ namespace Hotelmanagement
             {
                 return Result.Failed("یافت نشد");
             }
+        }
+        public Room GetRoomByNuber(int roomNumber,out string msg)
+        {
+            msg = "";
+            if (string.IsNullOrWhiteSpace(msg))
+            {
+                msg = "شماره اتاق الزامی است";
+            }
+            else
+            {
+                foreach (Room r in _rooms)
+                {
+                    if (r.RoomNumber == roomNumber)
+                        return r;
+                }
+            }
+            return null;
         }
     }
 }

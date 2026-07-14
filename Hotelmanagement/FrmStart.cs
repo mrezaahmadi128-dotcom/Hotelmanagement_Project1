@@ -16,5 +16,18 @@ namespace Hotelmanagement
         {
             InitializeComponent();
         }
+
+     
+        private void btnViewGuest_Click(object sender, EventArgs e)
+        {
+            var frm=new FrmGuests();
+            frm.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var frm=new FrmRooms();
+            frm.ShowDialog();
+        }
     }
 }

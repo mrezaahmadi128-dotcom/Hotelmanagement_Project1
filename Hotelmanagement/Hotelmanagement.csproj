@@ -59,6 +59,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmGuet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGuet.Designer.cs">
+      <DependentUpon>FrmGuet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRoom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRoom.Designer.cs">
+      <DependentUpon>FrmRoom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRooms.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRooms.Designer.cs">
+      <DependentUpon>FrmRooms.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmStart.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +96,15 @@
     <Compile Include="Result.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="RoomManager.cs" />
+    <EmbeddedResource Include="FrmGuet.resx">
+      <DependentUpon>FrmGuet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRoom.resx">
+      <DependentUpon>FrmRoom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRooms.resx">
+      <DependentUpon>FrmRooms.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmStart.resx">
       <DependentUpon>FrmStart.cs</DependentUpon>
     </EmbeddedResource>

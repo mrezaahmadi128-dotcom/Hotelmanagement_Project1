@@ -15,7 +15,7 @@ namespace Hotelmanagement
         }
         public  Result AddRoom(Room room)
         {
-            Result result=Validation(room);
+            Result result=Room.Validation(room.RoomNumber,room.Capacity,room.Price);
             if(!result.Success)
                 return result;
             if(ExistRoom(room.RoomNumber))
@@ -25,24 +25,6 @@ namespace Hotelmanagement
             _rooms.Add(room);
             return Result.Ok();
         }
-
-        public  Result Validation(Room room)
-        {
-            if(room.RoomNumber<100 || room.RoomNumber>500)
-            {
-                return Result.Failed("شماره اتاق الزامی است");
-            }
-            if(room.Capacity<=0 )
-            {
-                return Result.Failed("ظرفیت نا مغتبر است");
-            }
-            if (room.Price <= 0)
-            {
-                return Result.Failed("مبلغ نا معتبر است");
-            }
-            return Result.Ok();
-        }
-
         public  bool ExistRoom(int roomNumber)
         {
             foreach (Room r in _rooms)
@@ -75,25 +57,35 @@ namespace Hotelmanagement
             }
             else
             {
-                return Result.Failed("یافت نشد");
+                return Result.Failed(" همچین شماره اتاقی وجود ندارد");
             }
         }
-        public Room GetRoomByNuber(int roomNumber,out string msg)
+        public static Room GetRoomByNuber(int roomNumber)
         {
-            msg = "";
-            if (string.IsNullOrWhiteSpace(msg))
+
+            foreach (Room r in _rooms)
             {
-                msg = "شماره اتاق الزامی است";
+                if (r.RoomNumber == roomNumber)
+                    return r;
             }
-            else
-            {
-                foreach (Room r in _rooms)
-                {
-                    if (r.RoomNumber == roomNumber)
-                        return r;
-                }
-            }
+
             return null;
+        }
+        public static Result Validation(Room room)
+        {
+            if (room.RoomNumber < 100 || room.RoomNumber > 500)
+            {
+                return Result.Failed("شماره اتاق الزامی است");
+            }
+            if (room.Capacity <= 0)
+            {
+                return Result.Failed("ظرفیت نا مغتبر است");
+            }
+            if (room.Price <= 0)
+            {
+                return Result.Failed("مبلغ نا معتبر است");
+            }
+            return Result.Ok();
         }
     }
 }

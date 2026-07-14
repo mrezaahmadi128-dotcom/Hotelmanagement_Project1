@@ -36,6 +36,8 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.txtDelete = new System.Windows.Forms.TextBox();
+            this.btnEdite = new System.Windows.Forms.Button();
+            this.txtEdite = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRooms)).BeginInit();
             this.SuspendLayout();
             // 
@@ -117,11 +119,32 @@
             this.txtDelete.Size = new System.Drawing.Size(191, 33);
             this.txtDelete.TabIndex = 3;
             // 
+            // btnEdite
+            // 
+            this.btnEdite.Location = new System.Drawing.Point(740, 88);
+            this.btnEdite.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnEdite.Name = "btnEdite";
+            this.btnEdite.Size = new System.Drawing.Size(71, 41);
+            this.btnEdite.TabIndex = 4;
+            this.btnEdite.Text = "ویرایش";
+            this.btnEdite.UseVisualStyleBackColor = true;
+            this.btnEdite.Click += new System.EventHandler(this.btnEdite_Click);
+            // 
+            // txtEdite
+            // 
+            this.txtEdite.Location = new System.Drawing.Point(837, 93);
+            this.txtEdite.Multiline = true;
+            this.txtEdite.Name = "txtEdite";
+            this.txtEdite.Size = new System.Drawing.Size(191, 28);
+            this.txtEdite.TabIndex = 5;
+            // 
             // FrmRooms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1040, 482);
+            this.Controls.Add(this.txtEdite);
+            this.Controls.Add(this.btnEdite);
             this.Controls.Add(this.txtDelete);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnAdd);
@@ -146,5 +169,7 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.TextBox txtDelete;
+        private System.Windows.Forms.Button btnEdite;
+        private System.Windows.Forms.TextBox txtEdite;
     }
 }

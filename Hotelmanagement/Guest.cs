@@ -11,7 +11,8 @@ namespace Hotelmanagement
         public Guest(string firstName, string lastName,string nationalCode,string mobileNumber)
             :base(firstName, lastName, nationalCode, mobileNumber)
         {
-
         }
+       
+      
     }
 }

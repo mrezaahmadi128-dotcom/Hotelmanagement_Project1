@@ -14,6 +14,8 @@ namespace Hotelmanagement
         public string NationalCode { get;  set; }
         public string MobileNumber { get;  set; }
         public string FullName => $"{FirstName} {LastName}";
+        protected abstract int GetId();
+
         public Person(string firstName, string lastName, string nationalCode, string mobileNumber)
         {
             
@@ -21,13 +23,13 @@ namespace Hotelmanagement
             LastName = lastName;
             NationalCode = nationalCode;
             MobileNumber = mobileNumber;
-            Id = GuestManager.GetId();
+            Id =GetId();
 
         }
-        public Result Update(string firstName, string lastName, string nationalCode, string mobileNumber)
+        public  Result Update(string firstName, string lastName, string nationalCode, string mobileNumber)
         {
 
-            Result reult = Guest.Validation(firstName, lastName, nationalCode, mobileNumber);
+            Result reult = Validation(firstName, lastName, nationalCode, mobileNumber);
             if (!reult.Success)
                 return reult;
             if (GuestManager.ExistGuest(nationalCode))
@@ -40,7 +42,7 @@ namespace Hotelmanagement
             MobileNumber = mobileNumber;
             return Result.Ok();
         }
-        public static Result Validation(string firstName, string lastName, string nationalCode, string mobileNumber)
+        public virtual Result Validation(string firstName, string lastName, string nationalCode, string mobileNumber)
         {
             if (string.IsNullOrWhiteSpace(firstName))
             {

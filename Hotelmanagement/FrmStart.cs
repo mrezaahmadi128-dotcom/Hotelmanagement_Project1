@@ -29,5 +29,11 @@ namespace Hotelmanagement
             var frm=new FrmRooms();
             frm.ShowDialog();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmReservations();
+            frm.ShowDialog();
+        }
     }
 }

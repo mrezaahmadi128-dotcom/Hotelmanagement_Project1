@@ -18,7 +18,7 @@ namespace Hotelmanagement
             Price = price;
         }
 
-        public static Result Validation(int roomNumber, int capaCity, decimal price)
+        public  Result Validation(int roomNumber, int capaCity, decimal price)
         {
             if (roomNumber < 100 || roomNumber > 500)
             {

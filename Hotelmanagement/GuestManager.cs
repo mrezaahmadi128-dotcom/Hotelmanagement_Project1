@@ -9,13 +9,13 @@ namespace Hotelmanagement
     public class GuestManager
     {
         private static List<Guest>_guests=new List<Guest>();
-        public static List<Guest> GetGuest()
+        public static List<Guest> GetGuests()
         {
-            return _guests;
+            return new List<Guest>(_guests);
         }
         public Result AddGuest(Guest guest)
         {
-            Result result =Guest.Validation(guest.FirstName,guest.LastName,guest.NationalCode,guest.MobileNumber);
+            Result result =guest.Validation(guest.FirstName,guest.LastName,guest.NationalCode,guest.MobileNumber);
             if(!result.Success)
                 return result;
             if(ExistGuest(guest.NationalCode))

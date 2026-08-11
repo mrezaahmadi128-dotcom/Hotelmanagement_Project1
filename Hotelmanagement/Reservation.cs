@@ -22,7 +22,7 @@ namespace Hotelmanagement
             CheckOut = checkOut;
             Id = ReservationManager.GetId();
         }
-        public  static Result Validation(Guest guest, Room room, DateTime checkIn, DateTime checkOut)
+        public   Result Validation(Guest guest, Room room, DateTime checkIn, DateTime checkOut)
         {
             if (guest==null)
             {
@@ -32,13 +32,13 @@ namespace Hotelmanagement
             {
                 return Result.Failed("لطفا اتاق را وارد کنید");
             }
-            if (checkIn < DateTime.Now)
+            if (checkIn < DateTime.Now.Date)
             {
                 return Result.Failed("تاریخ ورود مشکل دارد");
             }
-            if (checkOut < DateTime.Now)
+            if (checkOut < DateTime.Now || checkOut<= checkIn)
             {
-                return Result.Failed("تاریخ ورود مشکل دارد");
+                return Result.Failed("تاریخ خروچ مشکل دارد");
             }
 
             return Result.Ok();

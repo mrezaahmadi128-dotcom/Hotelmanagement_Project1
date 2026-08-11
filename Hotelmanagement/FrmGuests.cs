@@ -21,7 +21,7 @@ namespace Hotelmanagement
         {
             var frm = new FrmGuest();
             frm.ShowDialog();
-            dgvGuests.DataSource = GuestManager.GetGuest().ToList();
+            dgvGuests.DataSource = GuestManager.GetGuests().ToList();
         }
         private bool CheckNumber(string number)
         {
@@ -46,7 +46,7 @@ namespace Hotelmanagement
                     MessageBox.Show("حذف انجام شد");
                     txtDelete.Clear();
                     btnAdd.Focus();
-                    dgvGuests.DataSource = GuestManager.GetGuest().ToList();
+                    dgvGuests.DataSource = GuestManager.GetGuests().ToList();
                 }
                 else
                 {
@@ -68,7 +68,7 @@ namespace Hotelmanagement
                 {
                     var frm = new FrmGuest(guest);
                     frm.ShowDialog();
-                    dgvGuests.DataSource = GuestManager.GetGuest().ToList();
+                    dgvGuests.DataSource = GuestManager.GetGuests().ToList();
                 }
                 else
                 {

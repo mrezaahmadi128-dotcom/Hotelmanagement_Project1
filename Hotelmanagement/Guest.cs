@@ -12,7 +12,13 @@ namespace Hotelmanagement
             :base(firstName, lastName, nationalCode, mobileNumber)
         {
         }
-       
-      
+        public override string ToString()
+        {
+            return $"{Id}-{FullName}";
+        }
+        protected override int GetId()
+        {
+            return GuestManager.GetId();
+        }
     }
 }

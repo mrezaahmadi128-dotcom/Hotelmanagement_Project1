@@ -1,27 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Hotelmanagement
 {
     public class ReservationManager
     {
         private static List<Reservation> _reservations=new List<Reservation>();
-        public static List<Reservation> GetReservatin()
+        public static List<Reservation> GetReservation()
         {
-            return _reservations;
+            return new List<Reservation>(_reservations);
         }
         public Result AddReserv(Reservation reservation)
         {
-            
-            Result result =Reservation.Validation(reservation.Guest,reservation.Room,reservation.CheckIn,reservation.CheckOut);
+            Result result=reservation.Validation(reservation.Guest,reservation.Room,reservation.CheckIn,reservation.CheckOut);
             if(!result.Success)
-                return result;
-            if(!ExistReserv(reservation.Id))
             {
-                return Result.Failed("رزرو وارد شده تکراری است");
+                return result;
+            }
+            if(!IsRoomAvailable(reservation))
+            {
+                return Result.Failed("این اتاق در بازه زمانی انتخاب شده،رزرو شده است");
             }
             _reservations.Add(reservation);
             return Result.Ok();
-
         }
         public bool ExistReserv(int id)
         {
@@ -34,5 +35,28 @@ namespace Hotelmanagement
             }
             return true;
         }
+        public bool IsRoomAvailable(Reservation reservation)
+        {
+            foreach(Reservation resev in _reservations)
+            {
+                if (resev.Room.RoomNumber == reservation.Room.RoomNumber)
+                {
+                    if (!(reservation.CheckIn >= resev.CheckOut || reservation.CheckOut<= resev.CheckIn))
+                    {
+                        return false;
+                        
+                    }
+                }
+            }
+            return true;
+        }
+        public static int GetId()
+        {
+            if(_reservations.Count == 0)
+                return 1;
+            return _reservations[_reservations.Count-1].Id+1;
+        }
+
+
     }
 }

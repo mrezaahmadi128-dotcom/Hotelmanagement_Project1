@@ -77,7 +77,7 @@
             this.txtlast.Multiline = true;
             this.txtlast.Name = "txtlast";
             this.txtlast.Size = new System.Drawing.Size(201, 29);
-            this.txtlast.TabIndex = 2;
+            this.txtlast.TabIndex = 1;
             // 
             // txtNationalCode
             // 
@@ -106,7 +106,7 @@
             this.txtPhoneNumber.Multiline = true;
             this.txtPhoneNumber.Name = "txtPhoneNumber";
             this.txtPhoneNumber.Size = new System.Drawing.Size(201, 28);
-            this.txtPhoneNumber.TabIndex = 2;
+            this.txtPhoneNumber.TabIndex = 3;
             // 
             // label4
             // 

@@ -9,13 +9,13 @@ namespace Hotelmanagement
     public class RoomManager
     {
         private static List<Room> _rooms = new List<Room>();
-        public List<Room> GetRooms()
+        public  List<Room> GetRooms()
         {
-            return _rooms;
+            return new List<Room>(_rooms);
         }
         public  Result AddRoom(Room room)
         {
-            Result result=Room.Validation(room.RoomNumber,room.Capacity,room.Price);
+            Result result=room.Validation(room.RoomNumber,room.Capacity,room.Price);
             if(!result.Success)
                 return result;
             if(ExistRoom(room.RoomNumber))

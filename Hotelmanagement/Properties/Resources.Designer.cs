@@ -59,25 +59,5 @@ namespace Hotelmanagement.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TMS_3840x2160_PACK__182_ {
-            get {
-                object obj = ResourceManager.GetObject("TMS_3840x2160_PACK (182)", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TMS_3840x2160_PACK__645_ {
-            get {
-                object obj = ResourceManager.GetObject("TMS_3840x2160_PACK (645)", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

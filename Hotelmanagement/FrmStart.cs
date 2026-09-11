@@ -26,7 +26,8 @@ namespace Hotelmanagement
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var frm=new FrmRooms();
+            RoomManager manager = new RoomManager();
+            var frm=new FrmRooms(manager);
             frm.ShowDialog();
         }
 

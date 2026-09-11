@@ -16,14 +16,18 @@ namespace Hotelmanagement
         {
             InitializeComponent();
         }
-
+        private void LoadGuests()
+        {
+            GuestManager manger = new GuestManager();
+            dgvGuests.DataSource = manger.GetGuests();
+        }
         private void btnAdd_Click(object sender, EventArgs e)
         {
             var frm = new FrmGuest();
             frm.ShowDialog();
-            dgvGuests.DataSource = GuestManager.GetGuests().ToList();
+            LoadGuests();
         }
-        private bool CheckNumber(string number)
+        public bool CheckNumber(string number)
         {
             int room;
             bool check = int.TryParse(number, out room);
@@ -35,40 +39,56 @@ namespace Hotelmanagement
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            var guest = new GuestManager();
-            if (CheckNumber(txtDelete.Text))
+            if (!CheckNumber(txtDelete.Text))
             {
-                Result result = guest.RemoveGuest(int.Parse(txtDelete.Text));
-                DialogResult res;
+                MessageBox.Show("آیدی را صحیح وارد کنید", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtDelete.Focus();
+                return;
+            }
+
+            DialogResult res;
                 res = MessageBox.Show(" آیا از حذف مطمئن هستید؟", "پیام", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (result.Success && DialogResult.Yes == res)
+                if (DialogResult.Yes != res)
                 {
-                    MessageBox.Show("حذف انجام شد");
-                    txtDelete.Clear();
-                    btnAdd.Focus();
-                    dgvGuests.DataSource = GuestManager.GetGuests().ToList();
+                return;
                 }
-                else
-                {
-                    MessageBox.Show(result.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtDelete.Clear();
-                    txtDelete.Focus();
-                }
+            var manager = new GuestManager();
+            Result result =manager.RemoveGuest(int.Parse(txtDelete.Text));
+            if(result.Success)
+            {
+                MessageBox.Show("حذف انجام شد");
+                txtDelete.Clear();
+                btnAdd.Focus();
+                LoadGuests();
             }
             else
-                MessageBox.Show("آیدی را صحیح وارد کنید", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {
+                MessageBox.Show(
+            result.Message,
+            "خطا",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error);
+
+                txtDelete.Clear();
+                txtDelete.Focus();
+            }
+                
+                  
+        
+                
         }
 
         private void btnEdite_Click(object sender, EventArgs e)
         {
             if (CheckNumber(txtEdite.Text))
             {
-                Guest guest = GuestManager.GetGuestById(int.Parse(txtEdite.Text));
+                GuestManager manager= new GuestManager();
+                Guest guest = manager.GetGuestById(int.Parse(txtEdite.Text));
                 if (guest != null)
                 {
                     var frm = new FrmGuest(guest);
                     frm.ShowDialog();
-                    dgvGuests.DataSource = GuestManager.GetGuests().ToList();
+                    LoadGuests();
                 }
                 else
                 {
@@ -82,6 +102,11 @@ namespace Hotelmanagement
                 MessageBox.Show("آیدی را صحیح وارد کنید", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtEdite.Focus();
             }
+        }
+
+        private void FrmGuests_Load(object sender, EventArgs e)
+        {
+            LoadGuests();
         }
     }
 }

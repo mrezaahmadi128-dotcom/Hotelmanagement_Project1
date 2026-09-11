@@ -8,19 +8,27 @@ namespace Hotelmanagement
 {
     public class Room
     {
-        public int RoomNumber { get; set; }
+        public int Id { get; set; }
+        public string RoomNumber { get; set; }
         public int Capacity {  get; set; }
         public decimal Price {  get; set; }
-        public Room(int roomNumber, int capacity, decimal price)
+        public Room(string roomNumber, int capacity, decimal price)
         {
             RoomNumber = roomNumber;
             Capacity = capacity;
             Price = price;
         }
-
-        public  Result Validation(int roomNumber, int capaCity, decimal price)
+        public Room(int id,string roomNumber,int capaCity,decimal price) 
         {
-            if (roomNumber < 100 || roomNumber > 500)
+            Id= id;
+            RoomNumber= roomNumber;
+            Capacity= capaCity;
+            Price= price;
+        }
+
+        public  Result Validation(string roomNumber, int capaCity, decimal price)
+        {
+            if (string.IsNullOrWhiteSpace(roomNumber))
             {
                 return Result.Failed("شماره اتاق الزامی است");
             }
@@ -34,16 +42,7 @@ namespace Hotelmanagement
             }
             return Result.Ok();
         }
-        public  Result Update(int roomNumber, int capaCity, decimal price)
-        {
-            Result result = Validation(roomNumber, capaCity, price);
-            if (!result.Success)
-                return result;
-            RoomNumber = roomNumber;
-            Capacity = capaCity;
-            Price = price;
-            return Result.Ok();
-        }
+        
     }
 
 }

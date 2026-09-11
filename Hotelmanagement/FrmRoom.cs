@@ -12,10 +12,12 @@ namespace Hotelmanagement
 {
     public partial class FrmRoom : Form
     {
+        private RoomManager _manager;
         private Room _room;
-        public FrmRoom()
+        public FrmRoom(RoomManager manager)
         {
             InitializeComponent();
+            _manager = manager;
         }
         public FrmRoom(Room room)
         {
@@ -62,47 +64,52 @@ namespace Hotelmanagement
 
             return true;
         }
-        
+        private void DoCheck()
+        {
+            CheckNumber(txtRoomNuber.Text);
+            CheckNumber(txtCapacity.Text);
+            CheckNumber(txtPrice.Text);
+        }
         private void btnSave_Click(object sender, EventArgs e)
         {
-            int roomNumber = int.Parse(txtRoomNuber.Text);
-            int capacity = int.Parse(txtCapacity.Text);
-            int price = int.Parse(txtPrice.Text);
-            var r = new RoomManager();
+            
+            
             if (_room == null)
             {
-
+                
+                DoCheck();
                 if (!ValidateInputs())
                 {
                     return;
                 }
-                Room room=new Room(roomNumber, capacity,price);
-                Result result = r.AddRoom(room);
+                int capacity=int.Parse(txtCapacity.Text);
+                decimal price=decimal.Parse(txtPrice.Text);
+                Room room=new Room(txtRoomNuber.Text, capacity,price);
+                Result result = _manager.AddRoom(room);
                 if(result.Success)
                 {
                     MessageBox.Show("ثبت شد");
+                    this.Close();
                 }
                 else
                 {
                     MessageBox.Show(result.Message);
                     return;
                 }
-                foreach(var item in this.Controls)
-                {
-                    if(item is TextBox)
-                    {
-                        ((TextBox)item).Text = "";
-                    }
-                }
+                
 
             }
             else
             {
+
+                DoCheck();
                 if (!ValidateInputs())
                 {
                     return;
                 }
-                Result result =_room.Update(roomNumber, capacity, price);
+                int capacity = int.Parse(txtCapacity.Text);
+                decimal price = decimal.Parse(txtPrice.Text);
+                Result result =_manager.Update(_room.Id,txtRoomNuber.Text,capacity,price);
                 if (result.Success)
                 {
                     MessageBox.Show("ویرایش انجام شد");

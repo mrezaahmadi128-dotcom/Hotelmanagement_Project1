@@ -30,16 +30,16 @@
         {
             this.dgvGuests = new System.Windows.Forms.DataGridView();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.txtDelete = new System.Windows.Forms.TextBox();
+            this.btnEdite = new System.Windows.Forms.Button();
+            this.txtEdite = new System.Windows.Forms.TextBox();
             this.FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NationalCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MobileNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.txtDelete = new System.Windows.Forms.TextBox();
-            this.btnEdite = new System.Windows.Forms.Button();
-            this.txtEdite = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuests)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,6 +69,40 @@
             this.btnAdd.Text = "+";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(151, 55);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(62, 38);
+            this.btnDelete.TabIndex = 2;
+            this.btnDelete.Text = "-";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // txtDelete
+            // 
+            this.txtDelete.Location = new System.Drawing.Point(237, 59);
+            this.txtDelete.Name = "txtDelete";
+            this.txtDelete.Size = new System.Drawing.Size(148, 30);
+            this.txtDelete.TabIndex = 3;
+            // 
+            // btnEdite
+            // 
+            this.btnEdite.Location = new System.Drawing.Point(538, 51);
+            this.btnEdite.Name = "btnEdite";
+            this.btnEdite.Size = new System.Drawing.Size(70, 38);
+            this.btnEdite.TabIndex = 4;
+            this.btnEdite.Text = "ویرایش";
+            this.btnEdite.UseVisualStyleBackColor = true;
+            this.btnEdite.Click += new System.EventHandler(this.btnEdite_Click);
+            // 
+            // txtEdite
+            // 
+            this.txtEdite.Location = new System.Drawing.Point(616, 55);
+            this.txtEdite.Name = "txtEdite";
+            this.txtEdite.Size = new System.Drawing.Size(148, 30);
+            this.txtEdite.TabIndex = 5;
             // 
             // FullName
             // 
@@ -120,40 +154,6 @@
             this.LastName.Visible = false;
             this.LastName.Width = 125;
             // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(151, 55);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(62, 38);
-            this.btnDelete.TabIndex = 2;
-            this.btnDelete.Text = "-";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // txtDelete
-            // 
-            this.txtDelete.Location = new System.Drawing.Point(237, 59);
-            this.txtDelete.Name = "txtDelete";
-            this.txtDelete.Size = new System.Drawing.Size(148, 30);
-            this.txtDelete.TabIndex = 3;
-            // 
-            // btnEdite
-            // 
-            this.btnEdite.Location = new System.Drawing.Point(538, 51);
-            this.btnEdite.Name = "btnEdite";
-            this.btnEdite.Size = new System.Drawing.Size(70, 38);
-            this.btnEdite.TabIndex = 4;
-            this.btnEdite.Text = "ویرایش";
-            this.btnEdite.UseVisualStyleBackColor = true;
-            this.btnEdite.Click += new System.EventHandler(this.btnEdite_Click);
-            // 
-            // txtEdite
-            // 
-            this.txtEdite.Location = new System.Drawing.Point(616, 55);
-            this.txtEdite.Name = "txtEdite";
-            this.txtEdite.Size = new System.Drawing.Size(148, 30);
-            this.txtEdite.TabIndex = 5;
-            // 
             // FrmGuests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -169,6 +169,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FrmGuests";
             this.Text = "FrmGuests";
+            this.Load += new System.EventHandler(this.FrmGuests_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuests)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -179,15 +180,15 @@
 
         private System.Windows.Forms.DataGridView dgvGuests;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.TextBox txtDelete;
+        private System.Windows.Forms.Button btnEdite;
+        private System.Windows.Forms.TextBox txtEdite;
         private System.Windows.Forms.DataGridViewTextBoxColumn FullName;
         private System.Windows.Forms.DataGridViewTextBoxColumn NationalCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn MobileNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
         private System.Windows.Forms.DataGridViewTextBoxColumn LastName;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.TextBox txtDelete;
-        private System.Windows.Forms.Button btnEdite;
-        private System.Windows.Forms.TextBox txtEdite;
     }
 }

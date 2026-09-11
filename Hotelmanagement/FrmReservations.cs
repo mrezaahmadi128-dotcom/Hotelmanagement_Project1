@@ -19,14 +19,26 @@ namespace Hotelmanagement
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            
             var frm=new FrmReservation();
             frm.ShowDialog();
-            dgvReserv.DataSource=ReservationManager.GetReservation().ToList();
+            ReservationManager manager = new ReservationManager();
+            List<Reservation> reservations = manager.GetReservations();
+            dgvReserv.DataSource = reservations;
+
+
         }
 
         private void dgvReserv_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void FrmReservations_Load(object sender, EventArgs e)
+        {
+            ReservationManager manager=new ReservationManager();
+            List<Reservation> reservations=manager.GetReservations();
+            dgvReserv.DataSource = reservations;
         }
     }
 }

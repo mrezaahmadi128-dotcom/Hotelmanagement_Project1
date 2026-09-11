@@ -12,38 +12,59 @@ namespace Hotelmanagement
 {
     public partial class FrmRooms : Form
     {
-        public FrmRooms()
+        public event EventHandler DeleteTextChanged;
+        RoomManager _roomManager;
+        public FrmRooms(RoomManager manager)
         {
             InitializeComponent();
+            _roomManager = manager;
+            _roomManager.RoomAdded += RoomMnager_RoomAdded;
+            _roomManager.RoomRemoved += Remove_Room;
+            DeleteTextChanged += lable;
         }
-
+        void RoomMnager_RoomAdded(object sender, EventArgs e)
+        {
+            LoadRooms();
+        }
+        void Remove_Room(object sender, EventArgs e)
+        {
+            LoadRooms();
+            MessageBox.Show("!حذف انجام شد");
+        }
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            RoomManager room=new RoomManager();
-            var frm=new FrmRoom();
+            
+            var frm=new FrmRoom(_roomManager);
             frm.ShowDialog();
-            dgvRooms.DataSource=room.GetRooms().ToList();
+            
         }
-
+        void lable(Object sender,EventArgs e)
+        {
+            
+            if(txtDelete.TextLength>0)
+            {
+                label1.Visible = false;
+            }
+            else
+                label1.Visible=true;
+        }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            var room = new RoomManager();
-            int roomNumber;
-            bool f = int.TryParse(txtDelete.Text, out roomNumber);
-            if (!f)
+            
+            if (!CheckNumber(txtDelete.Text))
             {
-                MessageBox.Show("لطفا برای حذف شماره اتاق صحیح وارد کنید");
+                MessageBox.Show("شماره اتاق معبر نیست", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Result result = room.RemoveRoom(roomNumber);
+            Result result = _roomManager.RemoveRoom(int.Parse(txtDelete.Text));
             DialogResult res;
             res = MessageBox.Show(" آیا از حذف مطمئن هستید؟", "پیام", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
             if (result.Success && DialogResult.Yes == res)
             {
-                MessageBox.Show("!حذف انجام شد");
+                
                 txtDelete.Clear();
                 txtDelete.Focus();
-                dgvRooms.DataSource = room.GetRooms().ToList();
+                
             }
             else
             {
@@ -65,19 +86,19 @@ namespace Hotelmanagement
         }
         private void btnEdite_Click(object sender, EventArgs e)
         {
-            var room = new RoomManager();
+            var manager = new RoomManager();
 
             if (!CheckNumber(txtEdite.Text))
             {
-                MessageBox.Show("لطفاً برای ویرایش شماره اتاق صحیح وارد کنید");
+                MessageBox.Show("لطفاً برای ویرایش آیدی صحیح وارد کنید");
                 return;
             }
-            Room rom=RoomManager.GetRoomByNuber(int.Parse(txtEdite.Text));
+            Room rom=manager.GetRoomById(int.Parse(txtEdite.Text));
             if (rom != null)
             {
                 var frm = new FrmRoom(rom);
                 frm.ShowDialog();
-                dgvRooms.DataSource = room.GetRooms().ToList();
+                LoadRooms();
             }
             else
             {
@@ -86,6 +107,27 @@ namespace Hotelmanagement
                 txtEdite.Focus();
             }
 
+        }
+        public void LoadRooms()
+        {
+            
+            List<Room> rooms = _roomManager.GetRooms();
+            dgvRooms.DataSource = rooms;
+        }
+        private void FrmRooms_Load(object sender, EventArgs e)
+        {
+            MessageBox.Show("Test");
+            LoadRooms();
+        }
+
+        private void txtDelete_TextChanged(object sender, EventArgs e)
+        {
+            DeleteTextChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void txtDelete_MouseEnter(object sender, EventArgs e)
+        {
+            txtDelete.Focus();
         }
     }
 }

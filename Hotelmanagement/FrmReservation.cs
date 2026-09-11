@@ -30,8 +30,10 @@ namespace Hotelmanagement
 
             if (_reserv == null)
             {
-                Guest guest = (Guest)cbGuestId.SelectedItem;
-                Room room = (Room)cbRoomNumber.SelectedItem;
+                //int guest = (int)cbGuestId.SelectedItem;
+                //int room = (int)cbRoomNumber.SelectedItem;
+                int guest = cbGuestId.Text.ToInt();
+                int room =cbRoomNumber.Text.ToInt();
 
                 ReservationManager manager = new ReservationManager();
                 var reserv = new Reservation(guest, room, dateIn, dateOut);
@@ -50,7 +52,7 @@ namespace Hotelmanagement
 
         private void FrmReservation_Load(object sender, EventArgs e)
         {
-            cbGuestId.DataSource = GuestManager.GetGuests();
+        //    cbGuestId.DataSource = GuestManager.GetGuests();
             var roomManager = new RoomManager();
             cbRoomNumber.DataSource = roomManager.GetRooms();
             cbRoomNumber.DisplayMember = "RoomNumber";

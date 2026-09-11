@@ -38,6 +38,7 @@
             this.txtDelete = new System.Windows.Forms.TextBox();
             this.btnEdite = new System.Windows.Forms.Button();
             this.txtEdite = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRooms)).BeginInit();
             this.SuspendLayout();
             // 
@@ -113,11 +114,14 @@
             // 
             // txtDelete
             // 
+            this.txtDelete.ForeColor = System.Drawing.Color.Black;
             this.txtDelete.Location = new System.Drawing.Point(379, 96);
             this.txtDelete.Multiline = true;
             this.txtDelete.Name = "txtDelete";
             this.txtDelete.Size = new System.Drawing.Size(191, 33);
             this.txtDelete.TabIndex = 3;
+            this.txtDelete.TextChanged += new System.EventHandler(this.txtDelete_TextChanged);
+            this.txtDelete.MouseEnter += new System.EventHandler(this.txtDelete_MouseEnter);
             // 
             // btnEdite
             // 
@@ -138,11 +142,23 @@
             this.txtEdite.Size = new System.Drawing.Size(191, 28);
             this.txtEdite.TabIndex = 5;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.SystemColors.Window;
+            this.label1.ForeColor = System.Drawing.Color.Gray;
+            this.label1.Location = new System.Drawing.Point(401, 99);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(95, 25);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Enter a Id";
+            // 
             // FrmRooms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1040, 482);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.txtEdite);
             this.Controls.Add(this.btnEdite);
             this.Controls.Add(this.txtDelete);
@@ -153,6 +169,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FrmRooms";
             this.Text = "FrmRooms";
+            this.Load += new System.EventHandler(this.FrmRooms_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRooms)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -171,5 +188,6 @@
         private System.Windows.Forms.TextBox txtDelete;
         private System.Windows.Forms.Button btnEdite;
         private System.Windows.Forms.TextBox txtEdite;
+        private System.Windows.Forms.Label label1;
     }
 }

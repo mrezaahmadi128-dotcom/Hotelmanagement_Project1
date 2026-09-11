@@ -13,6 +13,7 @@ namespace Hotelmanagement
     public partial class FrmGuest : Form
     {
         private Guest _guest;
+        private int _id;
         public FrmGuest()
         {
             InitializeComponent();
@@ -20,23 +21,26 @@ namespace Hotelmanagement
         public FrmGuest(Guest guest)
         {
             InitializeComponent();
+            _id= guest.Id;
             _guest = guest;
             txtFirst.Text=_guest.FirstName;
             txtlast.Text=_guest.LastName;
             txtNationalCode.Text=_guest.NationalCode;
             txtPhoneNumber.Text=_guest.MobileNumber;
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (_guest == null)
             {
-                var guest = new GuestManager();
-                Guest gue = new Guest(txtFirst.Text, txtlast.Text, txtNationalCode.Text, txtPhoneNumber.Text);
-                Result result = guest.AddGuest(gue);
+                var manager = new GuestManager();
+                Guest guest = new Guest(txtFirst.Text, txtlast.Text, txtNationalCode.Text, txtPhoneNumber.Text);
+                Result result = manager.AddGuest(guest);
                 if (result.Success)
                 {
                     MessageBox.Show("ثبت شد");
+                    
                     this.Close();
                 }
                 else
@@ -48,7 +52,8 @@ namespace Hotelmanagement
             }
             else
             {
-                Result ress = _guest.Update(txtFirst.Text, txtlast.Text, txtNationalCode.Text, txtPhoneNumber.Text);
+                GuestManager manager=new GuestManager();
+                Result ress = manager.UpdateGuest(_id,txtFirst.Text, txtlast.Text, txtNationalCode.Text, txtPhoneNumber.Text);
                 if (ress.Success)
                 {
                     MessageBox.Show("ویرایش انجام شد");

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BL;
+using Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,18 +14,29 @@ namespace Hotelmanagement
 {
     public partial class FrmGuests : Form
     {
-        public FrmGuests()
+        GuestService _guestService;
+        public FrmGuests(GuestService guest)
         {
             InitializeComponent();
+            _guestService= guest;
         }
         private void LoadGuests()
         {
-            GuestManager manger = new GuestManager();
-            dgvGuests.DataSource = manger.GetGuests();
+            //GuestManager manger = new GuestManager();
+
+            var result = _guestService.GetGuests();
+            if(result.Success)
+            {
+                dgvGuests.DataSource=result.Data;
+            }
+            else
+            {
+                MessageBox.Show(result.Message);
+            }
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            var frm = new FrmGuest();
+            var frm = new FrmGuest(_guestService);
             frm.ShowDialog();
             LoadGuests();
         }
@@ -52,8 +65,8 @@ namespace Hotelmanagement
                 {
                 return;
                 }
-            var manager = new GuestManager();
-            Result result =manager.RemoveGuest(int.Parse(txtDelete.Text));
+           
+            OperationResult result =_guestService.RemoveGuest(int.Parse(txtDelete.Text));
             if(result.Success)
             {
                 MessageBox.Show("حذف انجام شد");
@@ -82,11 +95,11 @@ namespace Hotelmanagement
         {
             if (CheckNumber(txtEdite.Text))
             {
-                GuestManager manager= new GuestManager();
-                Guest guest = manager.GetGuestById(int.Parse(txtEdite.Text));
-                if (guest != null)
+                
+                var guest = _guestService.GetGuestById(int.Parse(txtEdite.Text));
+                if (guest.Success)
                 {
-                    var frm = new FrmGuest(guest);
+                    var frm = new FrmGuest(guest.Data,_guestService);
                     frm.ShowDialog();
                     LoadGuests();
                 }

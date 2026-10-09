@@ -32,18 +32,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.gbreserv = new System.Windows.Forms.GroupBox();
-            this.cbGuestId = new System.Windows.Forms.ComboBox();
-            this.cbRoomNumber = new System.Windows.Forms.ComboBox();
+            this.cbGuest = new System.Windows.Forms.ComboBox();
+            this.cbRoom = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.dtpIn = new System.Windows.Forms.DateTimePicker();
             this.dtpOut = new System.Windows.Forms.DateTimePicker();
+            this.lblTotalPrice = new System.Windows.Forms.Label();
             this.gbreserv.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(28, 233);
+            this.btnSave.Location = new System.Drawing.Point(40, 237);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(120, 39);
             this.btnSave.TabIndex = 5;
@@ -56,9 +57,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(237, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 26);
+            this.label1.Size = new System.Drawing.Size(74, 26);
             this.label1.TabIndex = 2;
-            this.label1.Text = ": آیدی مهمان";
+            this.label1.Text = ":  مهمان";
             // 
             // label2
             // 
@@ -72,39 +73,39 @@
             // gbreserv
             // 
             this.gbreserv.BackColor = System.Drawing.Color.DimGray;
-            this.gbreserv.Controls.Add(this.cbGuestId);
-            this.gbreserv.Controls.Add(this.cbRoomNumber);
+            this.gbreserv.Controls.Add(this.cbGuest);
+            this.gbreserv.Controls.Add(this.cbRoom);
             this.gbreserv.Controls.Add(this.label4);
             this.gbreserv.Controls.Add(this.label3);
             this.gbreserv.Controls.Add(this.dtpIn);
             this.gbreserv.Controls.Add(this.dtpOut);
             this.gbreserv.Controls.Add(this.label1);
             this.gbreserv.Controls.Add(this.label2);
-            this.gbreserv.Location = new System.Drawing.Point(12, 12);
+            this.gbreserv.Location = new System.Drawing.Point(40, 12);
             this.gbreserv.Name = "gbreserv";
             this.gbreserv.Size = new System.Drawing.Size(666, 205);
             this.gbreserv.TabIndex = 3;
             this.gbreserv.TabStop = false;
             this.gbreserv.Text = "ثبت رزرو";
             // 
-            // cbGuestId
+            // cbGuest
             // 
-            this.cbGuestId.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.cbGuestId.FormattingEnabled = true;
-            this.cbGuestId.Location = new System.Drawing.Point(36, 31);
-            this.cbGuestId.Name = "cbGuestId";
-            this.cbGuestId.Size = new System.Drawing.Size(195, 34);
-            this.cbGuestId.TabIndex = 2;
+            this.cbGuest.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.cbGuest.FormattingEnabled = true;
+            this.cbGuest.Location = new System.Drawing.Point(36, 31);
+            this.cbGuest.Name = "cbGuest";
+            this.cbGuest.Size = new System.Drawing.Size(195, 34);
+            this.cbGuest.TabIndex = 2;
             // 
-            // cbRoomNumber
+            // cbRoom
             // 
-            this.cbRoomNumber.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.cbRoomNumber.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.cbRoomNumber.FormattingEnabled = true;
-            this.cbRoomNumber.Location = new System.Drawing.Point(375, 31);
-            this.cbRoomNumber.Name = "cbRoomNumber";
-            this.cbRoomNumber.Size = new System.Drawing.Size(182, 34);
-            this.cbRoomNumber.TabIndex = 1;
+            this.cbRoom.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.cbRoom.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.cbRoom.FormattingEnabled = true;
+            this.cbRoom.Location = new System.Drawing.Point(375, 31);
+            this.cbRoom.Name = "cbRoom";
+            this.cbRoom.Size = new System.Drawing.Size(182, 34);
+            this.cbRoom.TabIndex = 1;
             // 
             // label4
             // 
@@ -138,11 +139,21 @@
             this.dtpOut.Size = new System.Drawing.Size(264, 32);
             this.dtpOut.TabIndex = 4;
             // 
+            // lblTotalPrice
+            // 
+            this.lblTotalPrice.BackColor = System.Drawing.Color.DarkGray;
+            this.lblTotalPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.lblTotalPrice.Location = new System.Drawing.Point(556, 220);
+            this.lblTotalPrice.Name = "lblTotalPrice";
+            this.lblTotalPrice.Size = new System.Drawing.Size(150, 35);
+            this.lblTotalPrice.TabIndex = 6;
+            // 
             // FrmReservation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(758, 325);
+            this.ClientSize = new System.Drawing.Size(760, 320);
+            this.Controls.Add(this.lblTotalPrice);
             this.Controls.Add(this.gbreserv);
             this.Controls.Add(this.btnSave);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
@@ -166,7 +177,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker dtpIn;
         private System.Windows.Forms.DateTimePicker dtpOut;
-        private System.Windows.Forms.ComboBox cbGuestId;
-        private System.Windows.Forms.ComboBox cbRoomNumber;
+        private System.Windows.Forms.ComboBox cbGuest;
+        private System.Windows.Forms.ComboBox cbRoom;
+        private System.Windows.Forms.Label lblTotalPrice;
     }
 }

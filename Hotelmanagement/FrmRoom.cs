@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BL;
+using Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,35 +14,45 @@ namespace Hotelmanagement
 {
     public partial class FrmRoom : Form
     {
-        private RoomManager _manager;
-        private Room _room;
-        public FrmRoom(RoomManager manager)
+       
+        private RoomService _manager;
+        private RoomDto _room;
+        public FrmRoom(RoomService manager)
         {
             InitializeComponent();
             _manager = manager;
+            
         }
-        public FrmRoom(Room room)
+        public FrmRoom(RoomDto room,RoomService manager)
         {
             InitializeComponent();
+            _manager=manager;
             _room = room;
-            txtRoomNuber.Text=room.RoomNumber.ToString();
+            txtRoomNuber.Text=room.RoomNumber;
             txtCapacity.Text=room.Capacity.ToString();
             txtPrice.Text=room.Price.ToString();
 
         }
+        //bool validateCapacity(Room room)
+        //{
+        //    if (room.Capacity > 0)
+        //        return true;
+        //    return false;
+        //}
         private bool CheckNumber(string number)
         {
             int room;
-            bool check=int.TryParse(number, out room);
-            if(check)
-            {
-                return true;
-            }
-            return false;
+            return int.TryParse(number, out room);
         }
-        private bool ValidateInputs()
+        private bool CheckNumberForDecimal(string price)
         {
-            if (!CheckNumber(txtRoomNuber.Text))
+            decimal mablagh;
+            return decimal.TryParse(price, out mablagh);
+
+        }
+        private bool ValidateInputs(string roomNumber,string price,string capaCity)
+        {
+            if (!CheckNumber(roomNumber))
             {
                 MessageBox.Show("لطفا برای شماره اتاق عدد وارد کنید");
                 txtRoomNuber.Focus();
@@ -48,14 +60,14 @@ namespace Hotelmanagement
             }
 
 
-            if (!CheckNumber(txtPrice.Text))
+            if (!CheckNumberForDecimal(price))
             {
                 MessageBox.Show("لطفا برای مبلغ عدد وارد کنید");
                 txtPrice.Focus();
                 return false;
             }
 
-            if (!CheckNumber(txtCapacity.Text))
+            if (!CheckNumber(capaCity))
             {
                 MessageBox.Show("لطفا برای ظرفیت عدد وارد کنید");
                 txtCapacity.Focus();
@@ -64,11 +76,15 @@ namespace Hotelmanagement
 
             return true;
         }
-        private void DoCheck()
+        private bool DoCheck()
         {
-            CheckNumber(txtRoomNuber.Text);
-            CheckNumber(txtCapacity.Text);
-            CheckNumber(txtPrice.Text);
+           if( CheckNumber(txtRoomNuber.Text)&&
+               CheckNumber(txtCapacity.Text) &&
+               CheckNumberForDecimal(txtPrice.Text))       
+            {
+                return true;
+            }
+           return false;
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -76,16 +92,17 @@ namespace Hotelmanagement
             
             if (_room == null)
             {
-                
-                DoCheck();
-                if (!ValidateInputs())
+
+                if (!DoCheck())
+                    return;
+                if (!ValidateInputs(txtRoomNuber.Text,txtPrice.Text,txtCapacity.Text))
                 {
                     return;
                 }
                 int capacity=int.Parse(txtCapacity.Text);
                 decimal price=decimal.Parse(txtPrice.Text);
-                Room room=new Room(txtRoomNuber.Text, capacity,price);
-                Result result = _manager.AddRoom(room);
+                RoomDto room=new RoomDto(txtRoomNuber.Text, capacity,price);
+                var result = _manager.AddRoom(room);
                 if(result.Success)
                 {
                     MessageBox.Show("ثبت شد");
@@ -103,13 +120,13 @@ namespace Hotelmanagement
             {
 
                 DoCheck();
-                if (!ValidateInputs())
+                if (!ValidateInputs(txtRoomNuber.Text,txtPrice.Text,txtCapacity.Text))
                 {
                     return;
                 }
                 int capacity = int.Parse(txtCapacity.Text);
                 decimal price = decimal.Parse(txtPrice.Text);
-                Result result =_manager.Update(_room.Id,txtRoomNuber.Text,capacity,price);
+                OperationResult result =_manager.Update(_room.Id,txtRoomNuber.Text,capacity,price);
                 if (result.Success)
                 {
                     MessageBox.Show("ویرایش انجام شد");
@@ -120,6 +137,11 @@ namespace Hotelmanagement
                     MessageBox.Show(result.Message);
                 }
             }
+        }
+
+        private void FrmRoom_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -59,5 +59,59 @@ namespace Hotelmanagement.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to آیا از حذف مطمئن هستید؟.
+        /// </summary>
+        internal static string DeleteMessage {
+            get {
+                return ResourceManager.GetString("DeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to لطفا برای ویرایش آیدی صحیح وارد کنید.
+        /// </summary>
+        internal static string EditeError {
+            get {
+                return ResourceManager.GetString("EditeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to خطا.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to آیدی را صحیح وارد کنید.
+        /// </summary>
+        internal static string IdError {
+            get {
+                return ResourceManager.GetString("IdError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to پیام.
+        /// </summary>
+        internal static string Message {
+            get {
+                return ResourceManager.GetString("Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to شماره اتاق وارد شده موجود نیست.
+        /// </summary>
+        internal static string Room_unavailable {
+            get {
+                return ResourceManager.GetString("Room unavailable", resourceCulture);
+            }
+        }
     }
 }

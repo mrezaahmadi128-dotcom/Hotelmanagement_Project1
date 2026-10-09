@@ -1,10 +1,17 @@
-﻿using System;
+﻿using BL;
+using Common.Constants;
+using Hotelmanagement.Properties;
+using Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,29 +20,19 @@ namespace Hotelmanagement
     public partial class FrmRooms : Form
     {
         public event EventHandler DeleteTextChanged;
-        RoomManager _roomManager;
-        public FrmRooms(RoomManager manager)
+        RoomService _roomService;
+        public FrmRooms(RoomService manager)
         {
             InitializeComponent();
-            _roomManager = manager;
-            _roomManager.RoomAdded += RoomMnager_RoomAdded;
-            _roomManager.RoomRemoved += Remove_Room;
-            DeleteTextChanged += lable;
-        }
-        void RoomMnager_RoomAdded(object sender, EventArgs e)
-        {
-            LoadRooms();
-        }
-        void Remove_Room(object sender, EventArgs e)
-        {
-            LoadRooms();
-            MessageBox.Show("!حذف انجام شد");
+            _roomService = manager;
+
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
             
-            var frm=new FrmRoom(_roomManager);
+            var frm=new FrmRoom(_roomService);
             frm.ShowDialog();
+            LoadRooms();
             
         }
         void lable(Object sender,EventArgs e)
@@ -53,56 +50,59 @@ namespace Hotelmanagement
             
             if (!CheckNumber(txtDelete.Text))
             {
-                MessageBox.Show("شماره اتاق معبر نیست", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                errorProvider1.SetError(txtDelete,Resources.IdError);
+                
+                //MessageBox.Show("", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Result result = _roomManager.RemoveRoom(int.Parse(txtDelete.Text));
-            DialogResult res;
-            res = MessageBox.Show(" آیا از حذف مطمئن هستید؟", "پیام", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-            if (result.Success && DialogResult.Yes == res)
-            {
                 
-                txtDelete.Clear();
-                txtDelete.Focus();
-                
-            }
-            else
-            {
-                MessageBox.Show(result.Message,"خطا",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                return;
-            }
+             DialogResult res;
+             res = MessageBox.Show(Resources.DeleteMessage,Resources.Message, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+             if ( DialogResult.Yes == res)
+             {
+                var result = _roomService.RemoveRoom(int.Parse(txtDelete.Text));
+                if (result.Success)
+                {
 
-
-        }
+                    txtDelete.Clear();
+                    txtDelete.Focus();
+                    LoadRooms();
+                }
+                else
+                {
+                    MessageBox.Show(result.Message, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+             
+            
+            }
+        
         private bool CheckNumber(string number)
         {
-            int roomNumber;
-            bool check = int.TryParse(number, out roomNumber);
-            if (check)
-            {
-                return true;
-            }
-            return false;
+            int result;
+            return int.TryParse(number, out  result);
         }
         private void btnEdite_Click(object sender, EventArgs e)
         {
-            var manager = new RoomManager();
+            
 
             if (!CheckNumber(txtEdite.Text))
             {
-                MessageBox.Show("لطفاً برای ویرایش آیدی صحیح وارد کنید");
+                MessageBox.Show(Resources.EditeError);
                 return;
             }
-            Room rom=manager.GetRoomById(int.Parse(txtEdite.Text));
-            if (rom != null)
+            var result=_roomService.GetRoomById(int.Parse(txtEdite.Text));
+            if (result.Success)
             {
-                var frm = new FrmRoom(rom);
+                var frm = new FrmRoom(result.Data,_roomService);
                 frm.ShowDialog();
                 LoadRooms();
             }
             else
             {
-                MessageBox.Show("شماره اتاق وارد شده موجود نیست");
+                MessageBox.Show(Resources.Room_unavailable);
                 txtEdite.Clear();
                 txtEdite.Focus();
             }
@@ -111,12 +111,18 @@ namespace Hotelmanagement
         public void LoadRooms()
         {
             
-            List<Room> rooms = _roomManager.GetRooms();
-            dgvRooms.DataSource = rooms;
+            var result = _roomService.GetRooms();
+            var f=result.Data;
+            
+            if(result.Success)
+            {
+                dgvRooms.DataSource = result.Data;
+            }
+          // var prices=result.Data.Where(x=>x.Price> 1000000).Select(x=>x.RoomNumber).ToList();
         }
         private void FrmRooms_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("Test");
+           
             LoadRooms();
         }
 
@@ -128,6 +134,21 @@ namespace Hotelmanagement
         private void txtDelete_MouseEnter(object sender, EventArgs e)
         {
             txtDelete.Focus();
+        }
+
+        private void btnEnglish_Click(object sender, EventArgs e)
+        {
+            Thread.CurrentThread.CurrentUICulture=new CultureInfo("en");
+            btnEnglish.BackColor = Color.Red;
+            btnPerLanguage.BackColor = Color.White;
+
+        }
+
+        private void btnPerLanguage_Click(object sender, EventArgs e)
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fa");
+            btnPerLanguage.BackColor = Color.Red;
+            btnEnglish.BackColor = Color.White;
         }
     }
 }

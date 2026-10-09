@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BL;
+using Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,15 +14,18 @@ namespace Hotelmanagement
 {
     public partial class FrmGuest : Form
     {
-        private Guest _guest;
+        private GuestDto _guest;
+        private GuestService _guestService;
         private int _id;
-        public FrmGuest()
+        public FrmGuest(GuestService service)
         {
             InitializeComponent();
+            _guestService = service;
         }
-        public FrmGuest(Guest guest)
+        public FrmGuest(GuestDto guest,GuestService service)
         {
             InitializeComponent();
+            _guestService = service;
             _id= guest.Id;
             _guest = guest;
             txtFirst.Text=_guest.FirstName;
@@ -34,26 +39,27 @@ namespace Hotelmanagement
         {
             if (_guest == null)
             {
-                var manager = new GuestManager();
-                Guest guest = new Guest(txtFirst.Text, txtlast.Text, txtNationalCode.Text, txtPhoneNumber.Text);
-                Result result = manager.AddGuest(guest);
-                if (result.Success)
-                {
-                    MessageBox.Show("ثبت شد");
-                    
-                    this.Close();
-                }
-                else
+               
+                GuestDto guest = new GuestDto(txtFirst.Text, txtlast.Text, txtNationalCode.Text, txtPhoneNumber.Text);
+                OperationResult result = _guestService.AddGuest(guest);
+                if (!result.Success)
                 {
                     MessageBox.Show(result.Message);
                     return;
                 }
+                else
+                {
+                    MessageBox.Show("ثبت شد");
+                    this.Close();
+                    return;
+                }
+
 
             }
             else
             {
-                GuestManager manager=new GuestManager();
-                Result ress = manager.UpdateGuest(_id,txtFirst.Text, txtlast.Text, txtNationalCode.Text, txtPhoneNumber.Text);
+                
+                OperationResult ress = _guestService.UpdateGuest(_id,txtFirst.Text, txtlast.Text, txtNationalCode.Text, txtPhoneNumber.Text);
                 if (ress.Success)
                 {
                     MessageBox.Show("ویرایش انجام شد");

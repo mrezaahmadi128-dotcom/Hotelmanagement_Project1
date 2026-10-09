@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dgvRooms = new System.Windows.Forms.DataGridView();
             this.RoomNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Capacity = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,7 +40,11 @@
             this.btnEdite = new System.Windows.Forms.Button();
             this.txtEdite = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnEnglish = new System.Windows.Forms.Button();
+            this.btnPerLanguage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRooms)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvRooms
@@ -153,11 +158,39 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Enter a Id";
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
+            // btnEnglish
+            // 
+            this.btnEnglish.Location = new System.Drawing.Point(13, 14);
+            this.btnEnglish.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnEnglish.Name = "btnEnglish";
+            this.btnEnglish.Size = new System.Drawing.Size(48, 35);
+            this.btnEnglish.TabIndex = 7;
+            this.btnEnglish.Text = "EN";
+            this.btnEnglish.UseVisualStyleBackColor = true;
+            this.btnEnglish.Click += new System.EventHandler(this.btnEnglish_Click);
+            // 
+            // btnPerLanguage
+            // 
+            this.btnPerLanguage.Location = new System.Drawing.Point(69, 14);
+            this.btnPerLanguage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnPerLanguage.Name = "btnPerLanguage";
+            this.btnPerLanguage.Size = new System.Drawing.Size(53, 35);
+            this.btnPerLanguage.TabIndex = 9;
+            this.btnPerLanguage.Text = "Per";
+            this.btnPerLanguage.UseVisualStyleBackColor = true;
+            this.btnPerLanguage.Click += new System.EventHandler(this.btnPerLanguage_Click);
+            // 
             // FrmRooms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1040, 482);
+            this.Controls.Add(this.btnPerLanguage);
+            this.Controls.Add(this.btnEnglish);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtEdite);
             this.Controls.Add(this.btnEdite);
@@ -171,6 +204,7 @@
             this.Text = "FrmRooms";
             this.Load += new System.EventHandler(this.FrmRooms_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRooms)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,5 +223,8 @@
         private System.Windows.Forms.Button btnEdite;
         private System.Windows.Forms.TextBox txtEdite;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Button btnEnglish;
+        private System.Windows.Forms.Button btnPerLanguage;
     }
 }

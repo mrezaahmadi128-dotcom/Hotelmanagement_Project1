@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -15,40 +16,44 @@ namespace Hotelmanagement
                                          "Database=HotelManagement;" +
                                          "Trusted_Connection=True;" +
                                          "TrustServerCertificate=True;";
-        public  DataTable GetGuests()
+        public  OperationResult<List<GuestDto>> GetGuests()
         {
      
-            string query = @"select g.Id,g.FirstName+' '+g.LastName as FullName,g.NationalCode,g.MobileNumber
+            string query = @"select g.Id,g.FirstName,g.LastName,g.FirstName+' '+g.LastName as FullName,g.NationalCode,g.MobileNumber
                             from Guests as g";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            List<GuestDto> list = new List<GuestDto>();
+            try
             {
-                connection.Open();
-                SqlDataAdapter adabter = new SqlDataAdapter(query, connection);
-                DataTable table = new DataTable();
-                adabter.Fill(table);
-                return table;
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = Convert.ToInt32(reader["Id"]);
+                            string firstNmae = Convert.ToString(reader["FirstName"]);
+                            string lastName = Convert.ToString(reader["LastName"]);
+                            string nationalCode = Convert.ToString(reader["NationalCode"]);
+                            string mobileNumber = Convert.ToString(reader["MobileNumber"]);
+                            GuestDto guest = new GuestDto(id, firstNmae, lastName, nationalCode, mobileNumber);
+                            list.Add(guest);
+                        }
+                    }
+                    return OperationResult<List<GuestDto>>.Ok(list);
+                    
+                }
             }
-
-            //    using (SqlDataReader reader = cmd.ExecuteReader())
-            //    {
-            //        while (reader.Read())
-            //        {
-            //            int id = Convert.ToInt32(reader["Id"]);
-            //            string firstNmae = Convert.ToString(reader["FirstName"]);
-            //            string lastName = Convert.ToString(reader["LastName"]);
-            //            string nationalCode = Convert.ToString(reader["NationalCode"]);
-            //            string mobileNumber = Convert.ToString(reader["MobileNumber"]);
-            //            Guest guest=new Guest(id,firstNmae,lastName,nationalCode,mobileNumber);
-            //            list.Add(guest);
-            //        }
-            //    } 
-            //}
-            //return list;
+            catch (Exception ex)
+            {
+                return OperationResult<List<GuestDto>>.Failed(ex.Message);
+            }
         }
-        public Result AddGuest(Guest guest)
+        public OperationResult AddGuest(GuestDto guest)
         {
             string query = "[dbo].[Insertguest]";
-            Result result =Guest.Validation(guest.FirstName,guest.LastName,guest.NationalCode,guest.MobileNumber);
+            OperationResult result =GuestDto.Validation(guest.FirstName,guest.LastName,guest.NationalCode,guest.MobileNumber);
             if(!result.Success)
                 return result;
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -65,12 +70,12 @@ namespace Hotelmanagement
                 int rowsAffected=cmd.ExecuteNonQuery();
                 if(rowsAffected == 1)
                 {
-                    return Result.Ok();
+                    return OperationResult.Ok();
                 }
             }
-            return Result.Failed("خطا در ثبت");
+            return OperationResult.Failed("خطا در ثبت");
         }
-        public Result UpdateGuest(int id,string firstName, string lastName, string nationalCode, string mobileNumber)
+        public OperationResult UpdateGuest(int id,string firstName, string lastName, string nationalCode, string mobileNumber)
         {
             string query = @"Update Guests 
                             set FirstName=@firstName,
@@ -78,12 +83,12 @@ namespace Hotelmanagement
                             	NationalCode=@nationalCode,
                             	MobileNumber=@mobileNumber
                             where Id=@Id;";
-            Result reult = Guest.Validation(firstName, lastName, nationalCode, mobileNumber);
+            OperationResult reult = GuestDto.Validation(firstName, lastName, nationalCode, mobileNumber);
             if (!reult.Success)
                 return reult;
             if(IsNationalCodeExist(id,nationalCode))
             {
-                return Result.Failed("کدملی دارد شده موجود می باشد");
+                return OperationResult.Failed("کدملی دارد شده موجود می باشد");
             }
             using (SqlConnection connection = new SqlConnection(connectionString))
             {  connection.Open();
@@ -96,10 +101,10 @@ namespace Hotelmanagement
                 int rowsAffected=cmd.ExecuteNonQuery();
                 if (rowsAffected == 1)
                 {
-                    return Result.Ok();
+                    return OperationResult.Ok();
                 }
             }
-            return Result.Failed("ویرایش ناموفق");
+            return OperationResult.Failed("ویرایش ناموفق");
         }
         public bool IsNationalCodeExist(int id,string nationalCode)
         {
@@ -120,11 +125,11 @@ namespace Hotelmanagement
         }
         
        
-        public Result RemoveGuest(int id)
+        public OperationResult RemoveGuest(int id)
         {
             if (HasReservation(id))
             {
-                return Result.Failed(" این مهمان دارای رزرو است");
+                return OperationResult.Failed(" این مهمان دارای رزرو است");
             }
             string query = @"DELETE FROM Guests
                             WHERE Id=@id";
@@ -137,10 +142,10 @@ namespace Hotelmanagement
                 
                 if (rowsAffected == 1)
                 {
-                    return Result.Ok();
+                    return OperationResult.Ok();
                 }
             }
-            return Result.Failed("مهمانی با این ایدی پیدا نشد");
+            return OperationResult.Failed("مهمانی با این ایدی پیدا نشد");
         }
         public bool HasReservation(int guestId)
         {
@@ -156,7 +161,7 @@ namespace Hotelmanagement
                 return count > 0;
             }
         }
-        public  Guest GetGuestById(int id)
+        public  GuestDto GetGuestById(int id)
         {
             string query = @"select g.Id,g.FirstName,g.LastName,g.NationalCode,g.MobileNumber
                             from Guests as g
@@ -170,7 +175,7 @@ namespace Hotelmanagement
                 {
                     if(reader.Read())
                     {
-                        return new Guest(
+                        return new GuestDto(
                             Convert.ToInt32(reader["Id"]),
                             Convert.ToString(reader["FirstName"]),
                             Convert.ToString(reader["LastName"]),
